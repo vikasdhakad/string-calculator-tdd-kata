@@ -7,6 +7,7 @@ def add(*input_numbers)
   end
 
   numbers_array = input_numbers.gsub("\n", ",").split(',').map(&:to_i)
+  numbers_array.reject! { |num| num > 1000 }
   negative_numbers = numbers_array.select { |num| num < 0 }
   if negative_numbers.any?
     raise ArgumentError, "Negative numbers not allowed: #{negative_numbers.join(', ')}"
@@ -50,3 +51,6 @@ begin
 rescue ArgumentError => e
   e.message
 end
+
+# Ignore numbers bigger than 1000 Test Case
+add('1001,5')
