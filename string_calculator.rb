@@ -19,7 +19,9 @@ end
 def handle_different_delimiters(input_numbers)
   updated_input_numbers = []
   input_numbers.each do |input_number|
-    if input_number.start_with?("//")
+    if input_number.start_with?("//[")
+      updated_input_numbers << input_number.scan(/\d+/).join(',')
+    elsif input_number.start_with?("//")
       delimiter_end_index = input_number.index("\n")
       delimiter = input_number[2..delimiter_end_index - 1]
       updated_input_numbers << input_number[delimiter_end_index + 1..-1].gsub(delimiter, ",")
@@ -54,3 +56,7 @@ end
 
 # Ignore numbers bigger than 1000 Test Case
 add('1001,5')
+
+# Delimiters can be of any length and Allow multiple delimiters
+add("//[***]\n1***2***3")
+add("//[*][%]\n1*2%3")
