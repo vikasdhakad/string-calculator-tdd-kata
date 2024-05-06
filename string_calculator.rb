@@ -5,7 +5,14 @@ def add(*input_numbers)
   if input_numbers.include?(",\n")
     return "Invalid Input Format: Comma followed by a new line."
   end
-  input_numbers.gsub("\n", ",").split(',').map(&:to_i).sum
+
+  numbers_array = input_numbers.gsub("\n", ",").split(',').map(&:to_i)
+  negative_numbers = numbers_array.select { |num| num < 0 }
+  if negative_numbers.any?
+    raise ArgumentError, "Negative numbers not allowed: #{negative_numbers.join(', ')}"
+  end
+
+  numbers_array.sum
 end
 
 def handle_different_delimiters(input_numbers)
@@ -36,3 +43,10 @@ add("1,\n")
 
 # Support different delimiters
 add("//;\n1;2")
+
+# With negative numbers Test Case
+begin
+  add("//;\n-41;2")
+rescue ArgumentError => e
+  e.message
+end
